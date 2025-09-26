@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manager Dashboard</title>
+    <style>
+        body { font-family: sans-serif; margin: 2em; }
+        .container { max-width: 900px; margin: auto; }
+        .report-section { display: flex; gap: 2em; margin-bottom: 2em; }
+        .report-card { border: 1px solid #ccc; padding: 1em; border-radius: 5px; flex-grow: 1; }
+        h2 { border-bottom: 2px solid #eee; padding-bottom: 0.5em; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Manager Dashboard</h1>
+
+        <div class="report-section">
+            <div class="report-card">
+                <h2>Daily Report</h2>
+                <p><strong>Jars Sold:</strong> {{ daily.jars_sold }}</p>
+                <p><strong>Trips:</strong> {{ daily.trips }}</p>
+                <p><strong>Revenue:</strong> ₹{{ "%.2f"|format(daily.revenue) }}</p>
+                <p><strong>Expenses:</strong> ₹{{ "%.2f"|format(daily.expenses) }}</p>
+                <p><strong>Profit:</strong> ₹{{ "%.2f"|format(daily.profit) }}</p>
+            </div>
+            <div class="report-card">
+                <h2>Monthly Report</h2>
+                <p><strong>Jars Sold:</strong> {{ monthly.jars_sold }}</p>
+                <p><strong>Trips:</strong> {{ monthly.trips }}</p>
+                <p><strong>Revenue:</strong> ₹{{ "%.2f"|format(monthly.revenue) }}</p>
+                <p><strong>Expenses:</strong> ₹{{ "%.2f"|format(monthly.expenses) }}</p>
+                <p><strong>Profit:</strong> ₹{{ "%.2f"|format(monthly.profit) }}</p>
+            </div>
+        </div>
+
+        <h2>All Recorded Data</h2>
+        <h3>Sales</h3>
+        <table>
+            <tr><th>Date</th><th>Item</th><th>Quantity</th><th>Amount</th></tr>
+            {% for sale in all_data.sales %}
+            <tr>
+                <td>{{ sale.date.strftime('%Y-%m-%d %H:%M') }}</td>
+                <td>{{ sale.item }}</td>
+                <td>{{ sale.quantity }}</td>
+                <td>₹{{ "%.2f"|format(sale.amount) }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+
+        <h3>Trips</h3>
+        <table>
+            <tr><th>Date</th><th>Jars</th></tr>
+            {% for trip in all_data.trips %}
+            <tr>
+                <td>{{ trip.date.strftime('%Y-%m-%d %H:%M') }}</td>
+                <td>{{ trip.jars }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+
+        <h3>Expenses</h3>
+        <table>
+            <tr><th>Date</th><th>Type</th><th>Amount</th></tr>
+            {% for expense in all_data.expenses %}
+            <tr>
+                <td>{{ expense.date.strftime('%Y-%m-%d %H:%M') }}</td>
+                <td>{{ expense.type }}</td>
+                <td>₹{{ "%.2f"|format(expense.amount) }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+</body>
+</html>
